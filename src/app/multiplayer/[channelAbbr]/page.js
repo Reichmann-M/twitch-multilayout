@@ -64,9 +64,17 @@ export default function Home() {
                         <AlertDescription>Could not retrieve live channels for category: {sCategoryAbbr}.</AlertDescription>
                     </Alert>
                 )}
-                {aChannelNames && (
+                {aChannelNames && aChannelNames.length===0 && (
+                    <Alert status='warning'>
+                    <AlertIcon />
+                    <AlertTitle>Nobody livestreaming!</AlertTitle>
+                    <AlertDescription>There are currently no live channels for: {sCategoryAbbr}.</AlertDescription>
+                </Alert>
+                )}
+                {aChannelNames && aChannelNames.length>0 && (
                     <div className="grid grid-cols-4 gap-0">
-                        {aChannelNames.map((item, index) => (
+                        {
+                        aChannelNames.map((item, index) => (
                             <iframe id={`iframe${index}`} className="w-full h-full gap-0" key={index} src={`https://player.twitch.tv/?channel=${item}&parent=localhost`} frameborder="0" allowFullScreen="true" scrolling="no" height="378" width="620" allow="autoplay" muted={bAllStreamsMuted}></iframe>
                         ))}
                     </div>

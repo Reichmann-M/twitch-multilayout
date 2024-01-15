@@ -21,11 +21,8 @@ import {
 } from '@chakra-ui/react'
 import Link from 'next/link';
 import Sidebar from '../components/Sidebar'
-import { useRouter, usePathname, useSearchParams } from 'next/navigation'
 
 export default function Home() {
-  const router = useRouter();
-
   const [aCategories, setCategories] = useState(null);
   const [allCategories, setAllCategories] = useState(null);
   const [bCategoriesLoadingError, setCategoriesError] = useState(false);
@@ -46,10 +43,7 @@ export default function Home() {
     fetchData();
   }, []);
 
-  const mouseEnteredRandomCategory = () => {
-    setRandomCategory(allCategories[Math.floor(Math.random() * allCategories.length)]);
-  }
-  const mousePressedRandomCategory = () => {
+  const randomizeCategoryLink = () => {
     setRandomCategory(allCategories[Math.floor(Math.random() * allCategories.length)]);
   }
 
@@ -68,7 +62,7 @@ export default function Home() {
           )}
           {aCategories && (
             <div className="grid grid-cols-4 gap-0">
-              <Link onMouseEnter={mouseEnteredRandomCategory} onMouseUp={mousePressedRandomCategory} key="randomCategory" href={`/multiplayer/${randomCategory.abbr}`}>
+              <Link onMouseEnter={randomizeCategoryLink} onMouseUp={randomizeCategoryLink} key="randomCategory" href={`/multiplayer/${randomCategory.abbr}`}>
                 <Card className="cursor-pointer" maxW='sm'>
                   <CardBody>
                     <Image
