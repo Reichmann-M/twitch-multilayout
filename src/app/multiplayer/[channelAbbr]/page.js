@@ -11,7 +11,8 @@ import {
     AlertDescription,
     Button,
     Heading,
-    Stack
+    Stack,
+    Spinner
 } from '@chakra-ui/react'
 import { ArrowBackIcon } from '@chakra-ui/icons'
 import { Icon } from '@chakra-ui/react'
@@ -29,6 +30,8 @@ export default function Home() {
 
     const [bAllStreamsMuted, setBAllStreamsMuted] = useState(false);
 
+    const [spinnerVisible, setSpinnerVisible] = useState(true);
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -37,6 +40,7 @@ export default function Home() {
             } catch (error) {
                 setChannelsError(true);
             }
+            setSpinnerVisible(false)
         };
         fetchData();
     }, [sCategoryAbbr]);
@@ -57,6 +61,7 @@ export default function Home() {
                     </Link>
                     <Heading as='h2' size='xl'>{`Twitch Multiplayer - ${sCategoryAbbr}`}</Heading>
                 </Stack>
+                {spinnerVisible && (<Spinner color='red.500' />)}
                 {bChannelsLoadingError && (
                     <Alert status='error'>
                         <AlertIcon />
@@ -77,11 +82,13 @@ export default function Home() {
                         aChannelNames.map((item, index) => (
                             <iframe id={`iframe${index}`} className="w-full h-full gap-0" key={index} src={`https://player.twitch.tv/?channel=${item}&parent=localhost`} frameborder="0" allowFullScreen="true" scrolling="no" height="378" width="620" allow="autoplay" muted={bAllStreamsMuted}></iframe>
                         ))}
+                        <Button onClick={() => muteAllStreams()} leftIcon={<Icon as={GoMute} />} colorScheme='teal' variant='solid'>
+                            Mute All
+                        </Button>
                     </div>
+                    
                 )}
-                <Button onClick={() => muteAllStreams()} leftIcon={<Icon as={GoMute} />} colorScheme='teal' variant='solid'>
-                    Mute All
-                </Button>
+                
 
             </div>
         </ChakraProvider>

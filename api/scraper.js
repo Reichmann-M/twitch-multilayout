@@ -16,9 +16,10 @@ module.exports.getLiveChannels = async (sCategoryAbbr) => {
 
     // Extract the channel names
     const elements = await page.$$('p[data-a-target="preview-card-channel-link"]');
-    
+
+    let elementTexts;
     try {
-        const elementTexts = await Promise.all(elements.map(element => page.evaluate(el => el.textContent, element)));
+        elementTexts = await Promise.all(elements.map(element => page.evaluate(el => el.textContent, element)));
         console.log('Element Texts:', elementTexts); //TODO: remove
     } catch (error) {
         console.error('Could not scrape the live channel URL')
