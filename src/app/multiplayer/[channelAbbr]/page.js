@@ -9,7 +9,13 @@ import {
     AlertIcon,
     AlertTitle,
     AlertDescription,
+    Button,
+    Heading,
+    Stack
 } from '@chakra-ui/react'
+import { ArrowBackIcon } from '@chakra-ui/icons'
+import { Icon } from '@chakra-ui/react'
+import { GoMute } from "react-icons/go";
 import Link from 'next/link';
 import { useRouter, usePathname, useSearchParams } from 'next/navigation'
 
@@ -21,11 +27,13 @@ export default function Home() {
     const [aChannelNames, setChannelNames] = useState(null);
     const [bChannelsLoadingError, setChannelsError] = useState(false);
 
+    const [bAllStreamsMuted, setBAllStreamsMuted] = useState(false);
+
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const result = await getRequest(`/category/${sCategoryAbbr}/liveChannels`);
-                setChannelNames(result);
+                setChannelNames(result.slice(0, 16));
             } catch (error) {
                 setChannelsError(true);
             }
@@ -33,12 +41,22 @@ export default function Home() {
         fetchData();
     }, [sCategoryAbbr]);
 
+    const muteAllStreams = () => {
+        console.log('test')
+        setBAllStreamsMuted(true);
+    }
+
     return (
         <ChakraProvider>
             <div>
-                <Link href="../">
-                    <button>Go to back to Home</button>
-                </Link>
+                <Stack direction='row' spacing={4}>
+                    <Link href="../">
+                        <Button leftIcon={<ArrowBackIcon />} colorScheme='teal' variant='solid'>
+                            Home
+                        </Button>
+                    </Link>
+                    <Heading as='h2' size='xl'>{`Twitch Multiplayer - ${sCategoryAbbr}`}</Heading>
+                </Stack>
                 {bChannelsLoadingError && (
                     <Alert status='error'>
                         <AlertIcon />
@@ -49,12 +67,13 @@ export default function Home() {
                 {aChannelNames && (
                     <div className="grid grid-cols-4 gap-0">
                         {aChannelNames.map((item, index) => (
-                            // <iframe className="w-full h-full gap-0" key={index} src={`https://player.twitch.tv/?channel=${item}&parent=localhost`} frameborder="0" allowFullScreen="true" scrolling="no" height="378" width="620"></iframe>
-                            <a key="1" href="http://example.com">{sCategoryAbbr}</a>
+                            <iframe id={`iframe${index}`} className="w-full h-full gap-0" key={index} src={`https://player.twitch.tv/?channel=${item}&parent=localhost`} frameborder="0" allowFullScreen="true" scrolling="no" height="378" width="620" allow="autoplay" muted={bAllStreamsMuted}></iframe>
                         ))}
                     </div>
                 )}
-                {/* TODO: add select option list with all Twitch categories -> scrape categories and its URLs */}
+                <Button onClick={() => muteAllStreams()} leftIcon={<Icon as={GoMute} />} colorScheme='teal' variant='solid'>
+                    Mute All
+                </Button>
 
             </div>
         </ChakraProvider>
