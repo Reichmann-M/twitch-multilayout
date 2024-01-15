@@ -21,9 +21,9 @@ async function main() {
     const categoryData = [];
     cardElements.forEach((cardElement) => {
         const link = cardElement.querySelector('[data-a-target="tw-box-art-card-link"]').href
-        const imgValue = cardElement.querySelector('img').src
+        const imgSrc = cardElement.querySelector('img').src
         const name = cardElement.querySelector('h2').innerHTML
-        categoryData.push({ link, imgValue, name });
+        categoryData.push({ link, imgSrc, name });
     });
     console.log(categoryData);
 }
