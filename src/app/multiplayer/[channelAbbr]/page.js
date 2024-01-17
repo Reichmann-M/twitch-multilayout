@@ -3,7 +3,7 @@ import Image from 'next/image'
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { getRequest } from '../../../../util/requestHelper.js'
-import { ChakraProvider } from '@chakra-ui/react'
+import { ChakraProvider, Divider } from '@chakra-ui/react'
 import {
     Alert,
     AlertIcon,
@@ -20,7 +20,7 @@ import { GoMute } from "react-icons/go";
 import Link from 'next/link';
 import { useRouter, usePathname, useSearchParams } from 'next/navigation'
 
-export default function Home() {
+export default function Multiplayer() {
 
     const sRouteSegments = usePathname().split('/');
     const sCategoryAbbr = sRouteSegments[sRouteSegments.length - 1]
