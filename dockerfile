@@ -20,4 +20,4 @@ EXPOSE 9999
 
 
 # Define the command to run your app
-CMD [ "npm", "run", "startApi" ]
+CMD [ "npm", "run", "prodAPI" ]
