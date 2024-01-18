@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p 4678",
     "lint": "next lint",
     "devAPI": "cd ./api/ && npx nodemon index.js",
     "prodAPI": "cd ./api/ && node index.js"
